@@ -6,3 +6,6 @@ psycopg2-binary
 pillow
 instagrapi
 beautifulsoup4
+fastapi
+dotenv
+pydantic

@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# DB_URL = os.getenv("LOCAL_DB_URL")
-DB_URL = os.getenv("POSTGRES_CONNECTION_STRING")
+DB_URL = os.getenv("LOCAL_DB_URL")
+# DB_URL = os.getenv("POSTGRES_CONNECTION_STRING")
 
 engine = create_engine(DB_URL)
 Session = sessionmaker(bind=engine)

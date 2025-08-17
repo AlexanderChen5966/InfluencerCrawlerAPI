@@ -80,26 +80,71 @@ def load_or_login(account):
 def get_client():
     """
     從帳號池中選擇可用帳號並返回 Client
+    若全部失敗，則回傳 None
     """
     for account in ACCOUNT_POOL:
         client = load_or_login(account)
         if client:
             return client
-    raise RuntimeError("所有帳號登入失敗，無法取得 IG Client")
+    # raise RuntimeError("所有帳號登入失敗，無法取得 IG Client")
+    print("所有帳號登入失敗，無法取得 IG Client")
+    return None  # 不 raise
 
 # 初始化全域 client（常駐 session）
-global_client = get_client()
+# global_client = get_client()
 
 # ---------- 單筆爬取 ----------
+# def crawl_ig(influencer_id, url, session, today=date.today()):
+#     try:
+#         username = parse_username_from_url(url)
+#
+#         # 隨機延遲，避免短時間連續請求
+#         time.sleep(random.uniform(5, 10))
+#
+#         user_id = global_client.user_id_from_username(username)
+#         user = global_client.user_info(user_id)
+#
+#         record = IGStats(
+#             influencer_id=influencer_id,
+#             username=username,
+#             url=url,
+#             followers=user.follower_count,
+#             following=user.following_count,
+#             posts=user.media_count,
+#             date=today
+#         )
+#         session.add(record)
+#         session.commit()
+#
+#         return {
+#             "status": "success",
+#             "platform": "IG",
+#             "influencer": influencer_id,
+#             "username": username,
+#             "followers": user.follower_count,
+#             "posts": user.media_count
+#         }
+#
+#     except Exception as e:
+#         session.rollback()
+#         return {
+#             "status": "error",
+#             "platform": "IG",
+#             "influencer": influencer_id,
+#             "message": str(e)
+#         }
+
 def crawl_ig(influencer_id, url, session, today=date.today()):
     try:
+        client = get_client()
+        if not client:
+            raise Exception("無可用 IG 帳號，無法取得 client")
+
         username = parse_username_from_url(url)
+        time.sleep(random.uniform(5, 10))  # 防止請求過快
 
-        # 隨機延遲，避免短時間連續請求
-        time.sleep(random.uniform(5, 10))
-
-        user_id = global_client.user_id_from_username(username)
-        user = global_client.user_info(user_id)
+        user_id = client.user_id_from_username(username)
+        user = client.user_info(user_id)
 
         record = IGStats(
             influencer_id=influencer_id,

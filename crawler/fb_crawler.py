@@ -11,8 +11,8 @@ from models import FBStats
 # ====== ENV ======
 FB_EMAIL = os.getenv("FB_EMAIL", "")
 FB_PASSWORD = os.getenv("FB_PASSWORD", "")
-FB_STORAGE_STATE_PATH = os.getenv("FB_STORAGE_STATE_PATH", "fb_storage.json")  # 建議掛 Zeabur Volume
-# FB_STORAGE_STATE_PATH = os.getenv("FB_STORAGE_STATE_PATH", "/data/fb_storage.json")  # 建議掛 Zeabur Volume
+# FB_STORAGE_STATE_PATH = os.getenv("FB_STORAGE_STATE_PATH", "fb_storage.json")  # 建議掛 Zeabur Volume
+FB_STORAGE_STATE_PATH = os.getenv("FB_STORAGE_STATE_PATH", "/data/fb_storage.json")  # 建議掛 Zeabur Volume
 
 HEADLESS = os.getenv("FB_HEADLESS", "true").lower() != "false"  # 預設 headless
 
